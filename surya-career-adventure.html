@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surya's Career Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .screen {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        #welcome-screen {
+            display: block;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .option-btn {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 200px;
+        }
+        
+        .option-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-btn {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            margin-top: 20px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+        
+        .content h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .content p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            color: #6a11cb;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .level-indicator {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .celebration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            display: none;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ff5e62;
+            opacity: 0.8;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+        
+        .flag {
+            font-size: 4rem;
+            margin: 20px 0;
+        }
+        
+        .next-btn {
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="celebration" id="celebration"></div>
+        
+        <!-- Welcome Screen -->
+        <div class="screen" id="welcome-screen">
+            <h1>Hello Surya! 👋</h1>
+            <p class="subtitle">Your career adventure awaits! Choose a country to explore your future possibilities</p>
+            <div class="flag">🌍</div>
+            
+            <div class="options">
+                <button class="option-btn" onclick="selectCountry('uae')">🇦🇪 UAE</button>
+                <button class="option-btn" onclick="selectCountry('uk')">🇬🇧 UK</button>
+                <button class="option-btn" onclick="selectCountry('nepal')">🇳🇵 Nepal</button>
+            </div>
+            
+            <div class="content">
+                <p>Each country offers unique career paths with different opportunities and challenges. Explore all options to discover where your future might lead!</p>
+            </div>
+        </div>
+        
+        <!-- UAE Screens -->
+        <div class="screen" id="uae-screen-1">
+            <h1>United Arab Emirates 🇦🇪</h1>
+            <p class="subtitle">Level 1: Starting Your Journey</p>
+            <div class="progress-bar"><div class="progress" id="uae-progress-1"></div></div>
+            
+            <div class="content">
+                <h2>Authorized Auditor Path</h2>
+                <p>Welcome to the UAE, Surya! As you begin your career here, you'll start as a <span class="highlight">Junior Auditor</span> at one of the Big Four accounting firms.</p>
+                <p>Your first assignment is working with high-profile clients in Dubai's bustling business district. The fast-paced environment will help you develop quickly!</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uae-screen-2')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uae-screen-2">
+            <h1>UAE Career Development 🇦🇪</h1>
+            <p class="subtitle">Level 2: Gaining Experience</p>
+            <div class="progress-bar"><div class="progress" id="uae-progress-2"></div></div>
+            
+            <div class="content">
+                <h2>Professional Growth</h2>
+                <p>After two years of hard work, you've been promoted to <span class="highlight">Senior Auditor</span>! You're now leading audit teams for major clients.</p>
+                <p>You've obtained your UAE auditing license and are specializing in financial services. The tax-free income is allowing you to save significantly!</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uae-screen-3')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uae-screen-3">
+            <h1>UAE Career Advancement 🇦🇪</h1>
+            <p class="subtitle">Level 3: Establishing Expertise</p>
+            <div class="progress-bar"><div class="progress" id="uae-progress-3"></div></div>
+            
+            <div class="content">
+                <h2>Becoming an Authority</h2>
+                <p>With 5 years of experience, you're now an <span class="highlight">Audit Manager</span>! You're working with government entities and sovereign wealth funds.</p>
+                <p>You've developed expertise in Islamic finance and are regularly invited to speak at industry conferences across the Middle East.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uae-screen-4')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uae-screen-4">
+            <h1>UAE Career Peak 🇦🇪</h1>
+            <p class="subtitle">Level 4: Reaching the Top</p>
+            <div class="progress-bar"><div class="progress" id="uae-progress-4"></div></div>
+            
+            <div class="content">
+                <h2>Authorized Auditor Achievement</h2>
+                <p>Congratulations! After 8 years of dedication, you've become an <span class="highlight">Authorized Auditor</span> with your own practice license.</p>
+                <p>You now run your own auditing firm in Dubai International Financial Centre, serving ultra-high-net-worth clients and multinational corporations.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uae-screen-5')">See Your Legacy →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uae-screen-5">
+            <h1>UAE Career Legacy 🇦🇪</h1>
+            <p class="subtitle">Level 5: Creating Impact</p>
+            <div class="progress-bar"><div class="progress" id="uae-progress-5"></div></div>
+            
+            <div class="content">
+                <h2>Industry Influence</h2>
+                <p>At the peak of your career, you're not just an auditor—you're an <span class="highlight">industry influencer</span>! You sit on several regulatory committees helping shape financial policy in the UAE.</p>
+                <p>You've also established a scholarship program for young Emirati accountants, ensuring the next generation continues to excel in the field.</p>
+            </div>
+            
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Explore Other Countries</button>
+        </div>
+        
+        <!-- UK Screens -->
+        <div class="screen" id="uk-screen-1">
+            <h1>United Kingdom 🇬🇧</h1>
+            <p class="subtitle">Level 1: Starting Your Journey</p>
+            <div class="progress-bar"><div class="progress" id="uk-progress-1"></div></div>
+            
+            <div class="content">
+                <h2>ICEAW Qualification Path</h2>
+                <p>Welcome to the UK, Surya! You've begun your <span class="highlight">ICEAW training</span> at a prestigious London accounting firm.</p>
+                <p>Your first rotation is in corporate audit, where you're learning the fundamentals of British accounting standards and working with diverse clients.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uk-screen-2')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uk-screen-2">
+            <h1>UK Career Development 🇬🇧</h1>
+            <p class="subtitle">Level 2: Exam Success</p>
+            <div class="progress-bar"><div class="progress" id="uk-progress-2"></div></div>
+            
+            <div class="content">
+                <h2>Professional Qualification</h2>
+                <p>You've passed your first set of ICEAW exams! You're now specializing in <span class="highlight">tax advisory</span> services.</p>
+                <p>You're working with a variety of clients from tech startups to established manufacturing companies, gaining broad experience.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uk-screen-3')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uk-screen-3">
+            <h1>UK Career Advancement 🇬🇧</h1>
+            <p class="subtitle">Level 3: Becoming Chartered</p>
+            <div class="progress-bar"><div class="progress" id="uk-progress-3"></div></div>
+            
+            <div class="content">
+                <h2>ICEAW Achievement</h2>
+                <p>Congratulations! You've completed all your exams and are now a <span class="highlight">fully qualified ICEAW Chartered Accountant</span>!</p>
+                <p>You've been promoted to Audit Senior at your firm and are leading engagements with mid-sized listed companies.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uk-screen-4')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uk-screen-4">
+            <h1>UK Career Specialization 🇬🇧</h1>
+            <p class="subtitle">Level 4: Finding Your Niche</p>
+            <div class="progress-bar"><div class="progress" id="uk-progress-4"></div></div>
+            
+            <div class="content">
+                <h2>Expertise Development</h2>
+                <p>After 5 years post-qualification, you've become an <span class="highlight">expert in forensic accounting</span>, investigating financial crimes and fraud.</p>
+                <p>You've worked on several high-profile cases and have been interviewed by financial news outlets for your expertise.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('uk-screen-5')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="uk-screen-5">
+            <h1>UK Career Legacy 🇬🇧</h1>
+            <p class="subtitle">Level 5: Industry Leadership</p>
+            <div class="progress-bar"><div class="progress" id="uk-progress-5"></div></div>
+            
+            <div class="content">
+                <h2>Thought Leadership</h2>
+                <p>At the peak of your career, you're now a <span class="highlight">Partner</span> at your firm and sit on the ICEAW council!</p>
+                <p>You're helping shape accounting standards across Europe and mentoring the next generation of accountants through a program you established.</p>
+            </div>
+            
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Explore Other Countries</button>
+        </div>
+        
+        <!-- Nepal Screens -->
+        <div class="screen" id="nepal-screen-1">
+            <h1>Nepal 🇳🇵</h1>
+            <p class="subtitle">Level 1: Starting Your Journey</p>
+            <div class="progress-bar"><div class="progress" id="nepal-progress-1"></div></div>
+            
+            <div class="content">
+                <h2>Entrepreneurial Beginnings</h2>
+                <p>Welcome to Nepal, Surya! You've decided to <span class="highlight">start your own accounting practice</span> in Kathmandu.</p>
+                <p>Your initial clients are small local businesses who need help with basic bookkeeping and tax compliance. It's challenging but rewarding!</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('nepal-screen-2')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="nepal-screen-2">
+            <h1>Nepal Business Growth 🇳🇵</h1>
+            <p class="subtitle">Level 2: Expanding Your Clientele</p>
+            <div class="progress-bar"><div class="progress" id="nepal-progress-2"></div></div>
+            
+            <div class="content">
+                <h2>Building Reputation</h2>
+                <p>Your firm is growing! You've hired your <span class="highlight">first employee</span> and now serve 25 regular clients.</p>
+                <p>You've developed a specialty in helping agricultural cooperatives with their financial management, which is bringing steady work.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('nepal-screen-3')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="nepal-screen-3">
+            <h1>Nepal Business Expansion 🇳🇵</h1>
+            <p class="subtitle">Level 3: Establishing Your Firm</p>
+            <div class="progress-bar"><div class="progress" id="nepal-progress-3"></div></div>
+            
+            <div class="content">
+                <h2>Growing the Enterprise</h2>
+                <p>Congratulations! Your firm now has <span class="highlight">5 employees</span> and you've moved to a proper office space.</p>
+                <p>You've started offering consulting services to international NGOs operating in Nepal, which has become a profitable niche.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('nepal-screen-4')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="nepal-screen-4">
+            <h1>Nepal Industry Recognition 🇳🇵</h1>
+            <p class="subtitle">Level 4: Becoming an Authority</p>
+            <div class="progress-bar"><div class="progress" id="nepal-progress-4"></div></div>
+            
+            <div class="content">
+                <h2>Regional Leader</h2>
+                <p>Your firm is now recognized as a <span class="highlight">leading accounting practice</span> in central Nepal with 15 employees.</p>
+                <p>You've developed a training program for young accountants and have been invited to speak at national accounting conferences.</p>
+            </div>
+            
+            <button class="next-btn" onclick="showScreen('nepal-screen-5')">Continue Your Journey →</button>
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Choose Another Country</button>
+        </div>
+        
+        <div class="screen" id="nepal-screen-5">
+            <h1>Nepal Legacy 🇳🇵</h1>
+            <p class="subtitle">Level 5: National Impact</p>
+            <div class="progress-bar"><div class="progress" id="nepal-progress-5"></div></div>
+            
+            <div class="content">
+                <h2>Philanthropy and Influence</h2>
+                <p>At the peak of your career, you lead one of <span class="highlight">Nepal's most respected accounting firms</span> with 30 employees across three cities.</p>
+                <p>You've established a foundation that provides accounting services to rural communities and have advised the government on financial policy reforms.</p>
+            </div>
+            
+            <button class="option-btn back-btn" onclick="showScreen('welcome-screen')">Explore Other Countries</button>
+        </div>
+    </div>
+
+    <script>
+        // Show the initial screen
+        showScreen('welcome-screen');
+        
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.display = 'none';
+            });
+            
+            // Show the requested screen
+            document.getElementById(screenId).style.display = 'block';
+            
+            // Update progress bars for the current country
+            updateProgressBars(screenId);
+            
+            // Add celebration for final screens
+            if (screenId.includes('-5')) {
+                celebrate();
+            }
+        }
+        
+        function selectCountry(country) {
+            showScreen(country + '-screen-1');
+        }
+        
+        function updateProgressBars(screenId) {
+            // Reset all progress bars first
+            document.querySelectorAll('.progress').forEach(progress => {
+                progress.style.width = '0%';
+            });
+            
+            // Extract country and level from screenId
+            const parts = screenId.split('-');
+            if (parts.length >= 3) {
+                const country = parts[0];
+                const level = parseInt(parts[2]);
+                
+                // Set progress for all previous levels
+                for (let i = 1; i <= level; i++) {
+                    setTimeout(() => {
+                        const progressBar = document.getElementById(`${country}-progress-${i}`);
+                        if (progressBar) {
+                            progressBar.style.width = `${(i/5) * 100}%`;
+                        }
+                    }, 100 * i);
+                }
+            }
+        }
+        
+        function celebrate() {
+            const celebration = document.getElementById('celebration');
+            celebration.innerHTML = '';
+            celebration.style.display = 'block';
+            
+            // Create confetti
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+                celebration.appendChild(confetti);
+            }
+            
+            // Hide celebration after animation
+            setTimeout(() => {
+                celebration.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
